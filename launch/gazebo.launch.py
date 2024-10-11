@@ -15,7 +15,8 @@ def generate_launch_description():
         Node(
             package='ros_gz_bridge',
             executable='parameter_bridge',
-            remappings=[('keyboard/keypress', 'keyboard/keypress@std_msgs/msg/Int32@gz.msgs.Int32')]
+            arguments=['/keyboard/keypress@std_msgs/msg/Int32@gz.msgs.Int32'],
+            output='screen'
         ),
         Node(
             package='bunnyboat_ctrl',

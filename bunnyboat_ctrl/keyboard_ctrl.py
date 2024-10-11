@@ -16,7 +16,16 @@ class keyboardlistener(Node):
         self.subscription  # prevent unused variable warning
 
     def listener_callback(self, msg):
-        self.get_logger().info('I heard: "%s"' % msg.data)
+        #self.get_logger().info('I heard: "%s"' % msg.data)
+        match msg.data:
+            case 87: #w
+                self.get_logger().info('move forward')
+            case 65: #a
+                self.get_logger().info('move left')
+            case 83: #s
+                self.get_logger().info('move backward')
+            case 68: #d
+                self.get_logger().info('move backward')
 
 
 def main(args=None):
