@@ -1,9 +1,8 @@
 import rclpy
 from rclpy.node import Node
 
-from std_msgs.msg import Int32
-from std_msgs.msg import Float64
-
+from std_msgs.msg import Int32 # msg type of /keyboard/keypress topic
+from std_msgs.msg import Float64 # msg type of /wamv/thrusters/[left/right]/thrust topic
 
 class keyboardlistener(Node):
 
@@ -27,27 +26,29 @@ class keyboardlistener(Node):
                 '/wamv/thrusters/right/thrust',
                 10)
 
+    # runs every time a new keypress is detected
     def listener_callback(self, msg):
+        # initialize return values to 0
         leftspeed=Float64()
         rightspeed=Float64()
         leftspeed.data=0.0
         rightspeed.data=0.0
         # keyboard input
         match msg.data:
-            case 87: #w
+            case 87: #w key
                 self.get_logger().info('move forward')
-                leftspeed.data=1500.0;
-                rightspeed.data=1500.0;
-            case 65: #a
+                leftspeed.data=5500.0;
+                rightspeed.data=5500.0;
+            case 65: #a key
                 self.get_logger().info('move left')
-                rightspeed.data=1500.0;
-            case 83: #s
+                rightspeed.data=5500.0;
+            case 83: #s key
                 self.get_logger().info('move backward')
-                leftspeed.data=-1500.0;
-                rightspeed.data=-1500.0;
-            case 68: #d
+                leftspeed.data=-5500.0;
+                rightspeed.data=-5500.0;
+            case 68: #d key
                 self.get_logger().info('move right')
-                leftspeed.data=1500.0;
+                leftspeed.data=5500.0;
         # publish speeds to thruster topics
         self.leftpub.publish(leftspeed)
         self.rightpub.publish(rightspeed)
@@ -55,9 +56,7 @@ class keyboardlistener(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-
     minimal_subscriber = keyboardlistener()
-
     rclpy.spin(minimal_subscriber)
 
     # Destroy the node explicitly
@@ -66,8 +65,5 @@ def main(args=None):
     minimal_subscriber.destroy_node()
     rclpy.shutdown()
 
-
 if __name__ == '__main__':
     main()
-
-
